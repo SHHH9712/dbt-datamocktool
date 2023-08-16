@@ -47,7 +47,7 @@
     {% set cols = [] %}
     {% for col in all_columns %}  
         {% if col.column|lower not in except %} 
-            {% if 'STRUCT' in col.data_type or 'ARRAY' in col.data_type %}  
+            {% if 'STRUCT' in col.data_type or 'ARRAY' in col.data_type or 'JSON' in col.data_type %}  
                 {% set _ = cols.append("TO_JSON_STRING(" + col.name + ") as " + col.name) %}
             {% elif 'FLOAT' in col.data_type %}
                 {% set _ = cols.append("ROUND(" + col.name + ", 3) as " + col.name) %}
