@@ -1,12 +1,14 @@
 {%- test unit_test(model, input_mapping, expected_output, name, description, compare_columns, depends_on, exclude_columns) -%}
     {%- set test_sql = dbt_datamocktool.get_unit_test_sql(model, input_mapping, depends_on)|trim -%}
-    {%- set test_report = dbt_datamocktool.test_equality(expected_output, name, compare_model=test_sql, compare_columns=compare_columns, exclude_columns=exclude_columns) -%}
+    {%- set resolved_expected_output = expected_output() if callable(expected_output) else expected_output -%}
+    {%- set test_report = dbt_datamocktool.test_equality(resolved_expected_output, name, compare_model=test_sql, compare_columns=compare_columns, exclude_columns=exclude_columns) -%}
     {{ test_report }}
 {%- endtest -%}
 
 {% test unit_test_incremental(model, input_mapping, expected_output, name, description, compare_columns, depends_on, exclude_columns) %}
     {%- set test_sql = dbt_datamocktool.get_unit_test_incremental_sql(model, input_mapping, depends_on)|trim -%}
-    {%- set test_report = dbt_datamocktool.test_equality(expected_output, name, compare_model=test_sql, compare_columns=compare_columns, exclude_columns=exclude_columns) -%}
+    {%- set resolved_expected_output = expected_output() if callable(expected_output) else expected_output -%}
+    {%- set test_report = dbt_datamocktool.test_equality(resolved_expected_output, name, compare_model=test_sql, compare_columns=compare_columns, exclude_columns=exclude_columns) -%}
     {{ test_report }}
 {% endtest %}
 
