@@ -15,7 +15,7 @@
         {% do dbt_datamocktool.__render_sql_and_replace_references(ns, input_mapping) %}
 
         {% set mock_model_relation = dbt_datamocktool._get_model_to_mock(
-            model, suffix=('_dmt_' ~ modules.datetime.datetime.now().strftime("%S%f"))
+            model, suffix=('_actual')
         ) %}
 
         {% do dbt_datamocktool._create_mock_table_or_view(mock_model_relation, ns.test_sql) %}
@@ -57,7 +57,7 @@
         
         {# mock_model_relation is the mocked model name #}
         {% set mock_model_relation = dbt_datamocktool._get_model_to_mock(
-            model, suffix=('_dmt_' ~ modules.datetime.datetime.now().strftime("%S%f"))
+            model, suffix=('_actual')
         ) %}
 
         {# mock current model state from input #}
